@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1761404332 source:c:\users\hp\desktop\nouveau dossier\git3 program\classeproject\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
