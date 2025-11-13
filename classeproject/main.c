@@ -23,21 +23,21 @@ int main() {
         return 1;
     }
 
-    printf("Combien d'employés voulez-vous enregistrer ? ");
+    printf("Combien d'employï¿½s voulez-vous enregistrer,svp ? ");
     scanf("%d", &n);
 
     for (i = 0; i < n; i++) {
-        printf("\n--- Employé %d ---\n", i + 1);
+        printf("\n--- Employï¿½ %d ---\n", i + 1);
         printf("Nom : ");
         scanf("%s", employes[i].nom);
-        printf("Prénom : ");
+        printf("Prï¿½nom : ");
         scanf("%s", employes[i].prenom);
         printf("Matricule : ");
         scanf("%d", &employes[i].matricule);
         printf("Salaire : ");
         scanf("%f", &employes[i].salaire);
 
-        // Écriture dans le fichier
+        // ï¿½criture dans le fichier
         fprintf(fichier, "%s %s %d %.2f\n", employes[i].nom, employes[i].prenom,
                 employes[i].matricule, employes[i].salaire);
 
@@ -55,7 +55,7 @@ int main() {
         }
     }
 
-    printf("Nombre d'employés dont le salaire est supérieur à la moyenne : %d\n", count_sup_moyenne);
+    printf("Nombre d'employï¿½s dont le salaire est supï¿½rieur ï¿½ la moyenne : %d\n", count_sup_moyenne);
 
     return 0;
 }
