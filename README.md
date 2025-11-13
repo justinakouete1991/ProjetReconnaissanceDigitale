@@ -17,11 +17,11 @@ Le projet repose sur une architecture modulaire répartie en trois parties princ
 
 ## 🧠 Fonctionnalités principales
 
-- 📁 Chargement de deux empreintes depuis l’interface Java  
-- ⚙ Pré-traitement automatique des images  
-- 🔗 Communication Java ↔ MATLAB (via MATLAB Engine for Java)  
-- 📊 Calcul du taux de correspondance entre empreintes  
-- 💬 Affichage du score final dans l’interface graphique  
+- 📁 Chargement de deux empreintes depuis l’interface Java ; 
+- ⚙ Pré-traitement automatique des images ; 
+- 🔗 Communication Java ↔ MATLAB (via MATLAB Engine for Java);  
+- 📊 Calcul du taux de correspondance entre empreintes;  
+- 💬 Affichage du score final dans l’interface graphique;  
 
 ---
 
