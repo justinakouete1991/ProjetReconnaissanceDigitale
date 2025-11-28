@@ -8,7 +8,11 @@ import java.awt.image.BufferedImage;
 
 public class MainWindow extends JFrame {
 
-    MainPanel mainPanel = new MainPanel(new GridLayout(1, 2, 10, 0));
+    private final MainPanel mainPanel = new MainPanel(new GridLayout(1, 2, 10, 0));
+    private final TopPanel topPanel = new TopPanel(new FlowLayout(FlowLayout.CENTER, 20, 15));
+    private final LogsArea logsArea = mainPanel.getLogsArea();
+//    private final JButton processBtn = topPanel.getProcessBtn();
+//    private final JButton matlabBtn = topPanel.getMatlabBtn();
 
     /*private final ImagePanel imagePanel1 = new ImagePanel("Empreinte 1 - Non chargée");
 
@@ -37,7 +41,6 @@ public class MainWindow extends JFrame {
         getContentPane().setBackground(Color.WHITE);
 
         // =============== PANNEAU SUPÉRIEUR ===============
-        TopPanel topPanel = new TopPanel(new FlowLayout(FlowLayout.CENTER, 20, 15));
         topPanel.setBackground(Color.WHITE);
 
         // =============== PANNEAU PRINCIPAL ===============
@@ -58,14 +61,32 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        addLog("Application initialisée. Chargez deux empreintes pour effectuer la vérification.");
+        logsArea.addLog("Application initialisée.");
     }
 
     /* Fonctions privées */
 
-    private void addLog(String message) {
-        LogsArea logsArea = mainPanel.getLogsArea();
-        logsArea.append(message + "\n");
-        logsArea.setCaretPosition(logsArea.getDocument().getLength());
+//    private void addLog(String message) {
+//        logsArea.append(message + "\n");
+//        logsArea.setCaretPosition(logsArea.getDocument().getLength());
+//    }
+
+    public LogsArea getLogsArea() {
+        return logsArea;
+    }
+
+//    public JButton getProcessBtn() {
+//        return processBtn;
+//    }
+//
+//    public JButton getMatlabBtn() {
+//        return matlabBtn;
+//    }
+
+    public void setButtonsTrue(){
+        topPanel.getProcessBtn().setEnabled(true);
+        topPanel.getMatlabBtn().setEnabled(true);
+        mainPanel.getLoadBtn1().setEnabled(true);
+        mainPanel.getLoadBtn2().setEnabled(true);
     }
 }

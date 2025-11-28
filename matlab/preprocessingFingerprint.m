@@ -9,8 +9,8 @@ end
 I = double(I);
 
 % --- 2. Normalisation de l'image ---
-M0 = 100; % Moyenne cible
-VAR0 = 100; % Variance cible
+M0 = 0; % Moyenne cible
+VAR0 = 1; % Variance cible
 I_norm = normalizeImg(I, M0, VAR0);
 
 % --- 3. Estimation de l'orientation ---

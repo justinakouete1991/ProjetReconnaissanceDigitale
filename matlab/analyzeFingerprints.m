@@ -1,56 +1,56 @@
-function [results] = analyzeFingerprints(I1Path,I2Path)
-
+%function [results] = analyzeFingerprints(I1Path,I2Path)
+I1Path = '..\data\images\101_1.tif';
 I1 = imread(I1Path);
-I2 = imread(I2Path);
+%I2 = imread(I2Path);
 
 % I1 = rgb2gray(I1);
 % I2 = rgb2gray(I2);
 
 I1 = double(I1);
-I2 = double(I2);
+%I2 = double(I2);
 
-N1 = normalizeLocal(I1);
-N2 = normalizeLocal(I2);
+[N1, mu, mu2, sigma] = normalizeLocal(I1);
+%N2 = normalizeLocal(I2);
 
-mask1 = segmentCoherence(N1);
-mask2 = segmentCoherence(N2);
-
-O1 = orientationTensor(N1);
-O2 = orientationTensor(N2);
-
-% Lissage passe-bas
-O1 = imgaussfilt(O1, 3);
-O2 = imgaussfilt(O2, 3);
-
-F1 = ridgeFrequency(N1, O1);
-F2 = ridgeFrequency(N2, O2);
-
-E1 = gaborEnhanced(N1, O1, F1, mask1);
-E2 = gaborEnhanced(N2, O2, F2, mask2);
-
-B1 = imbinarize(E1);
-B2 = imbinarize(E2);
-
-S1 = bwmorph(B1, 'thin', Inf);
-S2 = bwmorph(B2, 'thin', Inf);
-
-M1 = extractMinutiae(S1);
-M2 = extractMinutiae(S2);
-
-score = matchMinutiae(M1, M2);
-
-fingerprint1 = struct();
-fingerprint1.file = I1Path;
-fingerprint1.minutiaeCount = 42;
-
-fingerprint2 = struct();
-fingerprint2.file = I2Path;
-% fingerprint2.quality = 0.91;
-fingerprint2.minutiaeCount = 39;
-
-results = struct();
-results.fingerprints = [fingerprint1, fingerprint2];
-results.similarity = score;
+% mask1 = segmentCoherence(N1);
+% mask2 = segmentCoherence(N2);
+% 
+% O1 = orientationTensor(N1);
+% O2 = orientationTensor(N2);
+% 
+% % Lissage passe-bas
+% O1 = imgaussfilt(O1, 3);
+% O2 = imgaussfilt(O2, 3);
+% 
+% F1 = ridgeFrequency(N1, O1);
+% F2 = ridgeFrequency(N2, O2);
+% 
+% E1 = gaborEnhanced(N1, O1, F1, mask1);
+% E2 = gaborEnhanced(N2, O2, F2, mask2);
+% 
+% B1 = imbinarize(E1);
+% B2 = imbinarize(E2);
+% 
+% S1 = bwmorph(B1, 'thin', Inf);
+% S2 = bwmorph(B2, 'thin', Inf);
+% 
+% M1 = extractMinutiae(S1);
+% M2 = extractMinutiae(S2);
+% 
+% score = matchMinutiae(M1, M2);
+% 
+% fingerprint1 = struct();
+% fingerprint1.file = I1Path;
+% fingerprint1.minutiaeCount = 42;
+% 
+% fingerprint2 = struct();
+% fingerprint2.file = I2Path;
+% % fingerprint2.quality = 0.91;
+% fingerprint2.minutiaeCount = 39;
+% 
+% results = struct();
+% results.fingerprints = [fingerprint1, fingerprint2];
+% results.similarity = score;
 
 % fprintf("Score de similarité = %.4f\n", score);
 %
@@ -60,7 +60,7 @@ results.similarity = score;
 %     disp("Empreintes DIFFERENTES");
 % end
 
-end
+%end
 
 function score = matchMinutiae(M1, M2)
 
@@ -196,7 +196,9 @@ mask = bwareaopen(mask, 50);
 end
 
 
-function N = normalizeLocal(I, w)
+function [N, mu, mu2, sigma] = normalizeLocal(I, w)
+disp(nargin)
+
 if nargin < 2, w = 16; end
 I = double(I);
 
@@ -214,5 +216,5 @@ targetStd = 1;
 N = targetMean + targetStd * (I - mu) ./ (sigma + eps);
 end
 
-end
+%end
 

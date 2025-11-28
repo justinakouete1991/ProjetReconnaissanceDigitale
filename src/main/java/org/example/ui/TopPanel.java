@@ -25,6 +25,16 @@ public class TopPanel extends JPanel {
         add(formatCombo);
         add(Box.createHorizontalStrut(20));
         add(exportCombo);
+
+        processBtn.setEnabled(false);
+        matlabBtn.setEnabled(false);
     }
 
+    public JButton getProcessBtn() {
+        return processBtn;
+    }
+
+    public JButton getMatlabBtn() {
+        return matlabBtn;
+    }
 }

@@ -30,6 +30,7 @@ public class ImagesPanel extends JPanel {
         JPanel img1BtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         img1BtnPanel.setBackground(Color.WHITE);
         loadBtn1.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        loadBtn1.setEnabled(false);
         img1BtnPanel.add(loadBtn1);
         img1Panel.add(img1BtnPanel, BorderLayout.SOUTH);
 
@@ -48,6 +49,7 @@ public class ImagesPanel extends JPanel {
         JPanel img2BtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         img2BtnPanel.setBackground(Color.WHITE);
         loadBtn2.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        loadBtn2.setEnabled(false);
         img2BtnPanel.add(loadBtn2);
         img2Panel.add(img2BtnPanel, BorderLayout.SOUTH);
 
@@ -55,5 +57,13 @@ public class ImagesPanel extends JPanel {
 
         add(img1Panel);
         add(img2Panel);
+    }
+
+    public JButton getLoadBtn1() {
+        return loadBtn1;
+    }
+
+    public JButton getLoadBtn2() {
+        return loadBtn2;
     }
 }

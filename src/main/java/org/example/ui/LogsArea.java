@@ -14,4 +14,9 @@ public class LogsArea extends JTextArea {
         setLineWrap(true);
         setWrapStyleWord(true);
     }
+
+    public void addLog(String message){
+        append(message + "\n");
+        setCaretPosition(getDocument().getLength());
+    }
 }

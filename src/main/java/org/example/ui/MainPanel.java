@@ -6,13 +6,14 @@ import java.awt.*;
 
 public class MainPanel extends JPanel {
     private final LogsArea logsArea = new LogsArea(6, 11);
+    private final ImagesPanel imagesPanel = new ImagesPanel(new GridLayout(2, 1, 0, 10));;
 
     public MainPanel(LayoutManager layout){
         super(layout);
         // Colonne de gauche : Panneau des images
         JPanel leftColumn = new JPanel(new BorderLayout(5, 5));
         leftColumn.setBackground(Color.WHITE);
-        ImagesPanel imagesPanel = new ImagesPanel(new GridLayout(2, 1, 0, 10));
+
         imagesPanel.setBackground(Color.WHITE);
         leftColumn.add(imagesPanel, BorderLayout.CENTER);
 
@@ -41,5 +42,13 @@ public class MainPanel extends JPanel {
     /* Fonctions utilitaires */
     public LogsArea getLogsArea(){
         return logsArea;
+    }
+
+    public JButton getLoadBtn1(){
+        return imagesPanel.getLoadBtn1();
+    }
+
+    public JButton getLoadBtn2(){
+        return imagesPanel.getLoadBtn2();
     }
 }
