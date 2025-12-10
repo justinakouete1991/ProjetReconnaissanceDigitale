@@ -1,6 +1,6 @@
 %function [results] = analyzeFingerprints(I1Path,I2Path)
 I1Path = '..\data\images\101_1.tif';
-I2Path = '..\data\images\101_7.tif';
+I2Path = '..\data\images\108_4.tif';
 
 I1 = imread(I1Path);
 I2 = imread(I2Path);

@@ -6,6 +6,8 @@ import org.example.ui.MainWindow;
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FingerprintProcessor {
     LogsArea logsArea;
@@ -29,7 +31,7 @@ public class FingerprintProcessor {
             protected Void doInBackground() throws Exception {
                 try {
                     logsArea.addLog("[MATLAB] Patientez un instant, MATLAB se prépare...");
-                    String exePath = "C:\\Users\\HP\\Documents\\EPAC\\4ième Année\\Semestre 7\\Traitement Numérique de l'Image\\Projet Groupe 7\\FingerRecognition\\matlab\\test_connexion.exe";
+                    String exePath = getProjectRoot() + "\\matlab\\test_connexion.exe";
                     ProcessBuilder pb = new ProcessBuilder(exePath);
                     pb.redirectErrorStream(true);
                     Process p = pb.start();
@@ -52,4 +54,10 @@ public class FingerprintProcessor {
         };
         worker.execute();
     }
+
+    public String getProjectRoot(){
+       Path path = Paths.get("");
+       return path.toAbsolutePath().toString();
+    }
+
 }
