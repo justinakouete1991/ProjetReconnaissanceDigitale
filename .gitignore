@@ -40,3 +40,4 @@ build/
 
 ### MATLAB ###
 matlab/*.asv
+matlab/*.prj
