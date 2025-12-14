@@ -15,7 +15,7 @@ public class TopPanel extends JPanel {
         super(layout);
         processBtn.setFont(btnFont);
         matlabBtn.setFont(btnFont);
-        formatLabel.setForeground(Color.WHITE);
+        formatLabel.setForeground(Color.BLACK);
         formatLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
         add(processBtn);
@@ -28,13 +28,14 @@ public class TopPanel extends JPanel {
 
         processBtn.setEnabled(false);
         matlabBtn.setEnabled(false);
+        formatCombo.setEnabled(false);
+        exportCombo.setEnabled(false);
     }
 
-    public JButton getProcessBtn() {
-        return processBtn;
-    }
-
-    public JButton getMatlabBtn() {
-        return matlabBtn;
+    public void enableTopPanel(){
+        processBtn.setEnabled(true);
+        matlabBtn.setEnabled(true);
+        formatCombo.setEnabled(true);
+        exportCombo.setEnabled(true);
     }
 }

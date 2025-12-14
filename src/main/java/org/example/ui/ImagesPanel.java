@@ -59,11 +59,8 @@ public class ImagesPanel extends JPanel {
         add(img2Panel);
     }
 
-    public JButton getLoadBtn1() {
-        return loadBtn1;
-    }
-
-    public JButton getLoadBtn2() {
-        return loadBtn2;
+    public void enableImagesPanel(){
+        loadBtn1.setEnabled(true);
+        loadBtn2.setEnabled(true);
     }
 }

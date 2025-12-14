@@ -44,11 +44,7 @@ public class MainPanel extends JPanel {
         return logsArea;
     }
 
-    public JButton getLoadBtn1(){
-        return imagesPanel.getLoadBtn1();
-    }
-
-    public JButton getLoadBtn2(){
-        return imagesPanel.getLoadBtn2();
+    public void enableMainPanel(){
+        imagesPanel.enableImagesPanel();
     }
 }

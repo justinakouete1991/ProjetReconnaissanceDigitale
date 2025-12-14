@@ -11,25 +11,6 @@ public class MainWindow extends JFrame {
     private final MainPanel mainPanel = new MainPanel(new GridLayout(1, 2, 10, 0));
     private final TopPanel topPanel = new TopPanel(new FlowLayout(FlowLayout.CENTER, 20, 15));
     private final LogsArea logsArea = mainPanel.getLogsArea();
-//    private final JButton processBtn = topPanel.getProcessBtn();
-//    private final JButton matlabBtn = topPanel.getMatlabBtn();
-
-    /*private final ImagePanel imagePanel1 = new ImagePanel("Empreinte 1 - Non chargée");
-
-    // =============== COMPOSANTS UI ===============
-    private final ImagePanel imagePanel2 = new ImagePanel("Empreinte 2 - Non chargée");
-    private final JButton loadBtn1 = new JButton("Charger Empreinte 1");
-    private final JButton loadBtn2 = new JButton("Charger Empreinte 2");
-
-    private final JTextArea logArea = new JTextArea(6, 50);
-    // =============== DONNÉES IMAGES ===============
-    private final BufferedImage img1 = null;
-    private final BufferedImage img2 = null;
-    private final ImagePlus imp1 = null;
-    private final ImagePlus imp2 = null;
-    private final String filePath1 = "";
-    private final String filePath2 = "";
-    private final boolean imagesProcessed = false;*/
 
     /**
      * Constructeur
@@ -66,27 +47,12 @@ public class MainWindow extends JFrame {
 
     /* Fonctions privées */
 
-//    private void addLog(String message) {
-//        logsArea.append(message + "\n");
-//        logsArea.setCaretPosition(logsArea.getDocument().getLength());
-//    }
-
     public LogsArea getLogsArea() {
         return logsArea;
     }
 
-//    public JButton getProcessBtn() {
-//        return processBtn;
-//    }
-//
-//    public JButton getMatlabBtn() {
-//        return matlabBtn;
-//    }
-
-    public void setButtonsTrue(){
-        topPanel.getProcessBtn().setEnabled(true);
-        topPanel.getMatlabBtn().setEnabled(true);
-        mainPanel.getLoadBtn1().setEnabled(true);
-        mainPanel.getLoadBtn2().setEnabled(true);
+    public void enableWindow() {
+        topPanel.enableTopPanel();
+        mainPanel.enableMainPanel();
     }
 }
