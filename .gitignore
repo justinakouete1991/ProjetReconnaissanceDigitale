@@ -41,3 +41,4 @@ build/
 ### MATLAB ###
 matlab/*.asv
 matlab/*.prj
+matlab/codegen
