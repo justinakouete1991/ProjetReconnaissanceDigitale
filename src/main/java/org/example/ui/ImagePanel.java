@@ -3,10 +3,13 @@ package org.example.ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class ImagePanel extends JPanel {
-    private BufferedImage image;
-    private String text;
+    private BufferedImage image, processedImage;
+    private String imagePath, text;
+    //private String text;
 
     public ImagePanel(String initialText) {
         this.text = initialText;
@@ -14,10 +17,26 @@ public class ImagePanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
     }
 
-    public void setImage(BufferedImage img) {
-        this.image = img;
-        this.text = null;
+    public String setImage(File pathToImage) {
+        try {
+            this.image = javax.imageio.ImageIO.read(pathToImage);
+            this.imagePath = pathToImage.getAbsolutePath();
+            this.text = null;
+            repaint();
+            return null;
+        } catch (IOException e) {
+            //throw new RuntimeException(e);
+            return e.getMessage();
+        }
+    }
+
+    public void showProcessedImage(BufferedImage processedImage){
+        this.processedImage = processedImage;
         repaint();
+    }
+
+    public BufferedImage getImage(){
+        return image;
     }
 
     public void setText(String text) {
@@ -34,11 +53,14 @@ public class ImagePanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (image != null) {
+        BufferedImage imageToUse = image;
+        if (processedImage != null) imageToUse = processedImage;
+
+        if (imageToUse != null) {
             int panelWidth = getWidth();
             int panelHeight = getHeight();
-            int imgWidth = image.getWidth();
-            int imgHeight = image.getHeight();
+            int imgWidth = imageToUse.getWidth();
+            int imgHeight = imageToUse.getHeight();
 
             double scaleX = (double) panelWidth / imgWidth;
             double scaleY = (double) panelHeight / imgHeight;
@@ -50,7 +72,7 @@ public class ImagePanel extends JPanel {
             int x = (panelWidth - scaledWidth) / 2;
             int y = (panelHeight - scaledHeight) / 2;
 
-            g2d.drawImage(image, x, y, scaledWidth, scaledHeight, null);
+            g2d.drawImage(imageToUse, x, y, scaledWidth, scaledHeight, null);
 
             g2d.setColor(new Color(0, 0, 0, 150));
             g2d.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -69,5 +91,9 @@ public class ImagePanel extends JPanel {
             int textHeight = fm.getHeight();
             g2d.drawString(text, (getWidth() - textWidth) / 2, (getHeight() + textHeight / 2) / 2);
         }
+    }
+
+    public String getImagePath(){
+        return imagePath;
     }
 }

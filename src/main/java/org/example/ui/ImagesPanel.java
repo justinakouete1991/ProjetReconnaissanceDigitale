@@ -3,6 +3,9 @@ package org.example.ui;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.lang.reflect.Array;
 
 public class ImagesPanel extends JPanel {
     private ImagePanel imagePanel1 = new ImagePanel("Empreinte 1 - Non chargée");
@@ -20,7 +23,7 @@ public class ImagesPanel extends JPanel {
         img1Panel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2),
                 "Image 1",
-                javax.swing.border.TitledBorder.LEFT,
+                TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new Font("Segoe UI", Font.BOLD, 14),
                 Color.BLACK
@@ -40,8 +43,8 @@ public class ImagesPanel extends JPanel {
         img2Panel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2),
                 "Image 2",
-                javax.swing.border.TitledBorder.LEFT,
-                javax.swing.border.TitledBorder.TOP,
+                TitledBorder.LEFT,
+                TitledBorder.TOP,
                 new Font("Segoe UI", Font.BOLD, 14),
                 Color.BLACK));
         img2Panel.add(imagePanel2, BorderLayout.CENTER);
@@ -62,5 +65,33 @@ public class ImagesPanel extends JPanel {
     public void enableImagesPanel(){
         loadBtn1.setEnabled(true);
         loadBtn2.setEnabled(true);
+    }
+
+    public JButton getLoadBtn1(){
+        return loadBtn1;
+    }
+    public JButton getLoadBtn2(){
+        return loadBtn2;
+    }
+
+    public String setImagePanelImage(int imgNum, File pathToImage){
+        ImagePanel[] imagesPanel = {imagePanel1, imagePanel2};
+        String exceptionMessage = null;
+        for (int i = 0; i<= imagesPanel.length; i++){
+            if (i + 1 == imgNum) exceptionMessage = imagesPanel[i].setImage(pathToImage);
+        }
+        return exceptionMessage;
+    }
+
+    public BufferedImage[] getImages(){
+        return new BufferedImage[]{imagePanel1.getImage(), imagePanel2.getImage()};
+    }
+
+    public String[] getImagesPaths(){
+        return new String[]{imagePanel1.getImagePath(), imagePanel2.getImagePath()};
+    }
+
+    public ImagePanel[] getImagePanels(){
+        return new ImagePanel[]{imagePanel1, imagePanel2};
     }
 }

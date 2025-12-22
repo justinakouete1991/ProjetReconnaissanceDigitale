@@ -53,7 +53,7 @@ M1 = extractMinutiae(S1);
 M2 = extractMinutiae(S2);
 
 score = matchMinutiae(M1, M2);
-%
+
 % fingerprint1 = struct();
 % fingerprint1.file = I1Path;
 % fingerprint1.minutiaeCount = 42;

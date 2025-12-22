@@ -1,21 +1,28 @@
 package org.example.core;
 
+import ij.ImagePlus;
+import org.example.ui.ImagePanel;
 import org.example.ui.LogsArea;
 import org.example.ui.MainWindow;
 
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.lang.foreign.PaddingLayout;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FingerprintProcessor {
     LogsArea logsArea;
     MainWindow appMainWindow;
+    ImageUtils imageUtils;
 
     public FingerprintProcessor(MainWindow appMainWindow) {
         this.appMainWindow = appMainWindow;
         this.logsArea = appMainWindow.getLogsArea();
+        this.imageUtils = new ImageUtils(logsArea);
         // Initialisation de MATLAB et activation de l'interface si tout est ok
         initializeMATLAB();
     }
@@ -38,7 +45,7 @@ public class FingerprintProcessor {
                         int exitCode = p.waitFor();
                         logsArea.addLog(line + ". Code de sortie : " + exitCode);
                     }
-                    logsArea.addLog("Chargez à présent deux empreintes pour effectuer la vérification");
+                    logsArea.addLog("Chargez à présent deux empreintes pour les comparer");
                     // Activation de l'interface
                     appMainWindow.enableWindow();
                 } catch (Exception e) {
@@ -55,4 +62,16 @@ public class FingerprintProcessor {
         return path.toAbsolutePath().toString();
     }
 
+    public void processVerification(BufferedImage[] fingerprints, String[] fingerprintsPaths, ImagePanel[] imagePanels){
+        logsArea.addLog("\n========== PRÉ-TRAITEMENT DES EMPREINTES ==========");
+        for (int i = 0; i < fingerprints.length; i++) {
+            logsArea.addLog("========== OPÉRATIONS MENÉES SUR L'EMPREINTE " + (i + 1) + " ==========");
+            BufferedImage fingerprint = fingerprints[i];
+            String fingerprintPath = fingerprintsPaths[i];
+            ImagePanel imagePanel = imagePanels[i];
+            imageUtils.preProcessFingerprint(fingerprint, fingerprintPath, imagePanel);
+        }
+
+
+    }
 }

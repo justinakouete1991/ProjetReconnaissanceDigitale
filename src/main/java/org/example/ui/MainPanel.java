@@ -3,6 +3,8 @@ package org.example.ui;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class MainPanel extends JPanel {
     private final LogsArea logsArea = new LogsArea(6, 11);
@@ -46,5 +48,24 @@ public class MainPanel extends JPanel {
 
     public void enableMainPanel(){
         imagesPanel.enableImagesPanel();
+    }
+
+    public JButton[] getMainPanelLoadBtns(){
+        return new JButton[]{imagesPanel.getLoadBtn1(), imagesPanel.getLoadBtn2()};
+    }
+
+    public String setImagesPanelImage(int imgNum, File pathToImage){
+        return imagesPanel.setImagePanelImage(imgNum, pathToImage);
+    }
+
+    public BufferedImage[] getMainPanelImages(){
+        return imagesPanel.getImages();
+    }
+
+    public String[] getMainPanelImagesPaths(){
+        return imagesPanel.getImagesPaths();
+    }
+    public ImagePanel[] getImagePanels(){
+        return imagesPanel.getImagePanels();
     }
 }

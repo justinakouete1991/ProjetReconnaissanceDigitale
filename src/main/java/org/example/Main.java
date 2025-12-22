@@ -11,6 +11,7 @@ public class Main {
 
     public void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            appMainWindow.storeFingerprintProcessor(fingerprintProcessor);
             appMainWindow.setVisible(true);
         });
     }
