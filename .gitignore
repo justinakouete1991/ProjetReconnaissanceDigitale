@@ -42,4 +42,4 @@ build/
 matlab/*.asv
 matlab/*.prj
 matlab/codegen
-matlab/scripts\ tests
+matlab/scripts_tests
