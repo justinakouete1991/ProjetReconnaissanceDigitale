@@ -47,8 +47,6 @@ public class MainWindow extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        logsArea.addLog("Application initialisée.");
     }
 
     /* Fonctions privées */

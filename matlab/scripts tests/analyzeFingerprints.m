@@ -1,60 +1,71 @@
-I1 = imread('..\data\images\101_1.tif');
-I2 = imread('..\data\images\101_2.tif');
+%function [results] = analyzeFingerprints(I1Path,I2Path)
+I1Path = '..\..\data\images\101_1.tif';
+I2Path = '..\..\data\images\108_4.tif';
 
-% I1 = rgb2gray(I1);
-% I2 = rgb2gray(I2);
+I1 = imread(I1Path);
+I2 = imread(I2Path);
+
+%I1 = rgb2gray(I1);
+%I2 = rgb2gray(I2);
 
 I1 = double(I1);
 I2 = double(I2);
 
-figure; imshow(I1,[]); title('Image originale I1');
-
 N1 = normalizeLocal(I1);
 N2 = normalizeLocal(I2);
-figure; imshow(N1,[]); title('Normalisation locale N1');
 
 mask1 = segmentCoherence(N1);
 mask2 = segmentCoherence(N2);
-figure; imshow(mask1); title('Masque de segmentation');
+%mask = segmentCoherence(I);
+
+% figure;
+% imshow(N1, []);
+% hold on;
+% h = imshow(cat(3, ones(size(N1)), zeros(size(N1)), zeros(size(N1)))); % rouge
+% set(h, 'AlphaData', 0.3 * mask1);  % 30% d’opacité sur les zones True
+% title('Masque superposé en rouge');
 
 O1 = orientationTensor(N1);
 O2 = orientationTensor(N2);
-figure; showOrientationField(O1, mask1); title('Champ d''orientation');
+%showOrientationField(I1, O1); title('Champ d''orientation');
+
 
 % Lissage passe-bas
 O1 = imgaussfilt(O1, 3);
 O2 = imgaussfilt(O2, 3);
+%showOrientationField(I1, O1); title('Champ d''orientation');
 
 F1 = ridgeFrequency(N1, O1);
 F2 = ridgeFrequency(N2, O2);
-figure; imshow(F1,[]); title('Carte de fréquence (F1)');
+%figure; imshow(F1,[]); title('Carte de fréquence (F1)');
 
 E1 = gaborEnhanced(N1, O1, F1, mask1);
 E2 = gaborEnhanced(N2, O2, F2, mask2);
-figure; imshow(E1,[]); title('Image améliorée (Gabor)');
+%figure; imshow(E1,[]); title('Image améliorée (Gabor)');
 
 B1 = imbinarize(E1);
 B2 = imbinarize(E2);
-figure; imshow(B1,[]); title('Image binarisée');
 
 S1 = bwmorph(B1, 'thin', Inf);
 S2 = bwmorph(B2, 'thin', Inf);
-figure; imshow(S1,[]); title('Squelette (thinning)');
 
 M1 = extractMinutiae(S1);
 M2 = extractMinutiae(S2);
-figure;
-subplot(1,2,1); showMinutiae(S1, M1); title('Minuties détectées Image 1');
-subplot(1,2,2); showMinutiae(S2, M2); title('Minuties détectées Image 2');
 
-[score, bestDelta] = matchMinutiae(M1, M2);
+score = matchMinutiae(M1, M2);
 
-figure; imshow(I1,[]); hold on;
-alignedM1 = M1(:,1:2) + bestDelta;
-plot(alignedM1(:,1), alignedM1(:,2),'ro');
-plot(M2(:,1),       M2(:,2),      'go');
-title(sprintf('Matching visuel - Score = %.2f', score));
-hold off
+% fingerprint1 = struct();
+% fingerprint1.file = I1Path;
+% fingerprint1.minutiaeCount = 42;
+%
+% fingerprint2 = struct();
+% fingerprint2.file = I2Path;
+% % fingerprint2.quality = 0.91;
+% fingerprint2.minutiaeCount = 39;
+%
+% results = struct();
+% results.fingerprints = [fingerprint1, fingerprint2];
+% results.similarity = score;
 
 fprintf("Score de similarité = %.4f\n", score);
 
@@ -64,13 +75,25 @@ else
     disp("Empreintes DIFFERENTES");
 end
 
-%% Fonctions utilitaires
+%end
 
-function [score, bestDelta] = matchMinutiae(M1, M2)
+function showOrientationField(I, O)
+theta = O - pi/2;
+figure; imshow(I, []); hold on;
+step = 16;
+[rows, cols] = size(I);
+[x, y] = meshgrid(1:step:cols, 1:step:rows);
+theta_sub = theta(1:step:end, 1:step:end);
+u = cos(theta_sub);
+v = sin(theta_sub);
+quiver(x, y, u, v, 'r', 'LineWidth', 1);
+hold off;
+end
 
-  if isempty(M1) || isempty(M2), score=0; bestDelta = [0 0]; return; end
-    best = 0;
-    bestDelta = [0 0];
+function score = matchMinutiae(M1, M2)
+
+if isempty(M1) || isempty(M2), score=0; return; end
+best = 0;
 for k = 1:500 % essais RANSAC
     idx1 = randi(size(M1,1));
     idx2 = randi(size(M2,1));
@@ -84,11 +107,8 @@ for k = 1:500 % essais RANSAC
 
     dist = pdist2(aligned, M2(:,1:2));
     matches = sum(min(dist,[],2) < 8);
+
     best = max(best, matches);
-    
-    if matches > best
-        bestDelta = delta;
-    end
 end
 
 score = best / min(size(M1,1), size(M2,1));
@@ -143,8 +163,8 @@ for i = 1:blk:h-blk
 
         try
             g = gabor(lambda, theta*180/pi, 'SpatialFrequencyBandwidth',1);
-           patch = I(i:i+blk-1,j:j+blk-1);
-                E(i:i+blk-1,j:j+blk-1) = imgaborfilt(patch,g);
+            patch = I(i:i+blk-1,j:j+blk-1);
+            E(i:i+blk-1,j:j+blk-1) = imgaborfilt(patch,g);
         catch
             % En cas d’erreur, copier le patch original
             E(i:i+blk-1, j:j+blk-1) = I(i:i+blk-1, j:j+blk-1);
@@ -203,7 +223,6 @@ mask = coherence > 0.2; % seuil moderne
 mask = bwareaopen(mask, 50);
 end
 
-
 function N = normalizeLocal(I, w)
 if nargin < 2, w = 16; end
 I = double(I);
@@ -217,41 +236,11 @@ mu = imfilter(I, h, 'replicate');
 % Écart-type local
 mu2 = imfilter(I.^2, h, 'replicate');
 sigma = sqrt(mu2 - mu.^2 + eps);
+
 targetMean = 0;
 targetStd = 1;
 N = targetMean + targetStd * (I - mu) ./ (sigma + eps);
 end
 
-function showOrientationField(O, mask)
-    [h,w] = size(O);
-    step = 16; % résolution
-    hold on
-    imagesc(O.*mask); colormap('jet'); axis image; axis off;
-
-    for i=1:step:h
-        for j=1:step:w
-            if ~mask(i,j), continue; end
-            theta = O(i,j);
-            dx = 8*cos(theta);
-            dy = 8*sin(theta);
-            plot([j-dx j+dx],[i-dy i+dy],'w','LineWidth',1.2);
-        end
-    end
-    hold off
-end
-
-function showMinutiae(S, M)
-    imshow(S,[]); hold on;
-
-    for k=1:size(M,1)
-        x = M(k,1); y = M(k,2); type = M(k,3);
-        if type == 1
-            plot(x,y,'ro','MarkerSize',6,'LineWidth',1.5);
-        else
-            plot(x,y,'go','MarkerSize',6,'LineWidth',1.5);
-        end
-    end
-    hold off
-end
-
+%end
 

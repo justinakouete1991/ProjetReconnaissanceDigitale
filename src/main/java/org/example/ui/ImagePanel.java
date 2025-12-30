@@ -1,5 +1,7 @@
 package org.example.ui;
 
+import org.example.core.ImageUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,20 +21,15 @@ public class ImagePanel extends JPanel {
 
     public String setImage(File pathToImage) {
         try {
-            this.image = javax.imageio.ImageIO.read(pathToImage);
-            this.imagePath = pathToImage.getAbsolutePath();
-            this.text = null;
+            image = javax.imageio.ImageIO.read(pathToImage);
+            imagePath = pathToImage.getAbsolutePath();
+            text = null;
             repaint();
             return null;
         } catch (IOException e) {
             //throw new RuntimeException(e);
             return e.getMessage();
         }
-    }
-
-    public void showProcessedImage(BufferedImage processedImage){
-        this.processedImage = processedImage;
-        repaint();
     }
 
     public BufferedImage getImage(){
@@ -96,4 +93,14 @@ public class ImagePanel extends JPanel {
     public String getImagePath(){
         return imagePath;
     }
+
+    public void showProcessedImage(BufferedImage processedImage){
+        this.processedImage = processedImage;
+        repaint();
+    }
+
+//    public void showResizedImage(){
+//        processedImage = resizedImage;
+//        repaint();
+//    }
 }
